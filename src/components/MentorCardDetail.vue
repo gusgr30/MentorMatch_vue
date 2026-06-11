@@ -59,7 +59,7 @@
       <div class="w-full md:w-72">
         <DisponibilidadPanel
           :disponibilidad="mentor.mentorProfile.disponibilidad"
-          @reservar="(slot) => $emit('reservar', { mentor, slot })"
+          @reservar="(slot) => $emit('reservar', { slot })"
         />
       </div>
     </div>
