@@ -1,27 +1,17 @@
 <template>
   <div>
     <header class="mb-10 text-center md:text-left">
-      <h1
-        class="text-3xl font-extrabold text-gray-900 sm:text-4xl tracking-tight"
-      >
+      <h1 class="text-3xl font-extrabold text-gray-900 sm:text-4xl tracking-tight">
         Encuentra a tu mentor
       </h1>
+      <h4>Buscá un experto, seleccioná un horario y reservá clases personalizadas.</h4>
     </header>
 
     <div class="flex flex-col lg:flex-row gap-8">
-      <FilterPanel
-        v-model="filterTech"
-        :techs="allTechs"
-        @goToMentorias="goToMisMentorias"
-      />
+      <FilterPanel v-model="filterTech" :techs="allTechs" @goToMentorias="goToMisMentorias" />
 
       <div class="flex-1 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-        <MentorCard
-          v-for="mentor in filteredMentors"
-          :key="mentor.id"
-          :mentor="mentor"
-          @clickCard="goToDetail"
-        />
+        <MentorCard v-for="mentor in filteredMentors" :key="mentor.id" :mentor="mentor" @clickCard="goToDetail" />
       </div>
     </div>
   </div>
@@ -50,7 +40,7 @@ const goToDetail = (id) => {
 };
 
 const goToMisMentorias = () => {
-  router.push("/misMentorias");
+  router.push({ name: "misMentorias" });
 };
 
 </script>
