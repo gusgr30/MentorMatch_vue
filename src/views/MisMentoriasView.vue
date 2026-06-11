@@ -8,7 +8,7 @@
         </header>
 
         <div v-if="reservas.length" class="flex flex-col gap-3">
-            <ReservaCard v-for="reserva in reservas" :key="reserva._id" :reserva="reserva"
+            <ReservaCard v-for="reserva in reservas" :key="reserva.reservaGuardada._id" :reserva="reserva" :nombre="reserva.mentorObj.nombre"
                 @cancelar="abrirModalCancel" />
         </div>
 
@@ -37,7 +37,9 @@ const abrirModalCancel = (reserva) => {
 
 const onConfirmarCancel = async (reserva) => {
     // acá va el cancelarReserva del backend
+    modalCancelRef.value.setLoading(true)
     console.log('Cancelar reserva:', reserva._id)
     modalCancelRef.value.close()
+    modalCancelRef.value.setLoading(false)
 }
 </script>

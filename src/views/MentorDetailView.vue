@@ -43,6 +43,8 @@ const abrirModal = ({ slot }) => {
 const onConfirmar = ({ mentor, slot }) => {
   console.log('Reserva confirmada:', { mentor, slot })
   // acá va el POST al backend
-   modalReservaRef.value.close()
+  modalReservaRef.value.setLoading(true)
+  modalReservaRef.value.close()
+  modalReservaRef.value.setLoading(false)
 }
 </script>
