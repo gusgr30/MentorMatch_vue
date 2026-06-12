@@ -1,2 +1,7 @@
 @import "tailwindcss";
 @plugin "daisyui";
+
+.input:focus {
+  outline-color: #312c85;
+  border-color: #312c85;
+}
