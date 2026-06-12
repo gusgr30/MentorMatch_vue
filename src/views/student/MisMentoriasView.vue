@@ -22,9 +22,9 @@
 
 <script setup>
 import { ref, useTemplateRef } from 'vue'
-import ReservaCard from '../components/ReservaCard.vue'
-import ModalCancel from '../components/ModalCancel.vue'
-import { reservas as reservasMock } from '../mocks/reservas.js'
+import ReservaCard from '../../components/ReservaCard.vue'
+import ModalCancel from '../../components/ModalCancel.vue'
+import { reservas as reservasMock } from '../../mocks/reservas.js'
 
 const reservas = ref(reservasMock)
 const reservaSeleccionada = ref(null)

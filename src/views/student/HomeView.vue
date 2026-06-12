@@ -20,9 +20,9 @@
 <script setup>
 import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
-import { mentors } from "../mocks/mentors.js";
-import MentorCard from "../components/MentorCard.vue";
-import FilterPanel from "../components/FilterPanel.vue";
+import { mentors } from "../../mocks/mentors.js";
+import MentorCard from "../../components/MentorCard.vue";
+import FilterPanel from "../../components/FilterPanel.vue";
 
 const router = useRouter();
 const filterTech = ref("");

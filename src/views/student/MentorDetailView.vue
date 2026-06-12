@@ -20,9 +20,9 @@ import { ref, computed, useTemplateRef } from 'vue'
 // La ventaja de useTemplateRef es que el nombre del ref en el template está explícito como string, dejando más claro que es una referencia al DOM/componente y no un simple estado reactivo.
 import { useRouter, useRoute } from 'vue-router'
 import { MoveLeft } from '@lucide/vue'
-import { mentors } from '../mocks/mentors.js'
-import MentorCardDetail from '../components/MentorCardDetail.vue'
-import ModalReserva from '../components/ModalReserva.vue'
+import { mentors } from '../../mocks/mentors.js'
+import MentorCardDetail from '../../components/MentorCardDetail.vue'
+import ModalReserva from "../../components/ModalReserva.vue"
 
 const router = useRouter()
 const route = useRoute()
