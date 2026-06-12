@@ -12,13 +12,10 @@
 </template>
 
 <script setup>
-import { onMounted } from "vue";
 import { RouterView, useRoute } from "vue-router";
 import { useAuthStore } from "./stores/auth.js";
 import NavbarStudent from "./components/NavbarStudent.vue";
 
 const route = useRoute()
 const authStore = useAuthStore()
-
-onMounted(() => authStore.init())
 </script>
