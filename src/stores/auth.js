@@ -43,9 +43,14 @@ export const useAuthStore = defineStore('auth', {
       const token = localStorage.getItem('token')
       if (!token) return
 
-      const { data } = await api.get('/auth/me')
-      this.user = data.user
-      api.defaults.headers['Authorization'] = `Bearer ${token}`
+      try {
+        api.defaults.headers['Authorization'] = `Bearer ${token}`
+        const { data } = await api.get('/auth/me')
+        this.user = data
+      } catch {
+        localStorage.removeItem('token')
+        delete api.defaults.headers['Authorization']
+      }
     }
   }
 })
