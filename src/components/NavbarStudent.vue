@@ -10,13 +10,38 @@
         </RouterLink>
 
         <div class="flex items-center space-x-8">
-          <RouterLink
-            to="/mis-mentorias"
-            class="transition font-medium flex items-center gap-2"
-            active-class="text-indigo-600 font-bold"
-          >
-            Mis Mentorías
-          </RouterLink>
+            <RouterLink
+              v-if="authStore.isStudent"
+              to="/mis-mentorias"
+              class="transition font-medium flex items-center gap-2"
+              active-class="text-indigo-600 font-bold"
+            >
+              Mis Mentorías
+            </RouterLink>
+            <RouterLink
+              v-if="authStore.isMentor"
+              to="/portal/dashboard"
+              class="transition font-medium flex items-center gap-2"
+              active-class="text-indigo-600 font-bold"
+            >
+              Panel de Clases
+            </RouterLink>
+            <RouterLink
+              v-if="authStore.isMentor"
+              to="/portal/agenda"
+              class="transition font-medium flex items-center gap-2"
+              active-class="text-indigo-600 font-bold"
+            >
+              Mi Agenda
+            </RouterLink>
+            <RouterLink
+              v-if="authStore.isMentor"
+              to="/portal/perfil"
+              class="transition font-medium flex items-center gap-2"
+              active-class="text-indigo-600 font-bold"
+            >
+              Mi Perfil
+            </RouterLink>
 
           <div class="flex items-center gap-3 pl-4 border-l border-gray-200">
             <span class="text-sm font-medium text-gray-600 hidden md:inline">

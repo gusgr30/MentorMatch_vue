@@ -29,6 +29,21 @@ const routes = [
     path: "/:pathMatch(.*)*",
     redirect: "/",
   },
+  {
+    path: '/portal/dashboard',
+    name: 'mentorDashboard',
+    component: ()=> import("../views/mentor/MentorDashboardView.vue")
+  },
+  {
+    path: '/portal/agenda',
+    name: 'mentorAgenda',
+    component: ()=> import("../views/mentor/MentorAgendaView.vue")
+  },
+  {
+    path: '/portal/perfil',
+    name: 'mentorPerfil',
+    component: ()=> import("../views/mentor/MentorPerfilView.vue")
+  }
 ];
 
 const router = createRouter({
