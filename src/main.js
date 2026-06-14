@@ -9,10 +9,10 @@ const app = createApp(App);
 const pinia = createPinia();
 
 app.use(pinia);
-app.use(router);
 
 const authStore = useAuthStore();
 //llamamos al init() antes de que el router empiece a navegar, no en el App asi restaura la sesion antes de montar el app. 
 await authStore.init();
 
+app.use(router);
 app.mount("#app");
