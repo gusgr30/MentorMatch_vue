@@ -50,7 +50,9 @@ const onSubmit = async () => {
   error.value = ''
   try {
     await authStore.login(form.value.email, form.value.password)
-    router.push({ name: 'home' })
+    console.log(authStore.isMentor)
+    router.push(authStore.isMentor ? { name: "mentorDashboard" } : { name: "home" })
+
   } catch (e) {
     error.value = authStore.error || 'Email o contraseña incorrectos.'
   }

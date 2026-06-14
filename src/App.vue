@@ -1,7 +1,8 @@
 <template>
   <div class="min-h-screen bg-gray-50 text-gray-800 font-sans">
     <template v-if="!['login', 'register'].includes(route.name)">
-      <NavbarStudent v-if="authStore.isStudent" />
+      <NavbarStudent />
+      <!-- <NavbarStudent v-if="authStore.isStudent" /> -->
       <!-- <NavbarMentor v-else-if="authStore.isMentor" /> -->
     </template>
 

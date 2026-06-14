@@ -50,6 +50,9 @@
             <div class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold border border-indigo-200">
               {{ initiales }}
             </div>
+            <button @click="manejarLogout" class="text-sm font-medium text-gray-600 hidden md:inline">
+              Logout
+            </button>
           </div>
         </div>
       </div>
@@ -62,12 +65,19 @@ import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
 import { GraduationCap } from '@lucide/vue'
 import { useAuthStore } from '../stores/auth.js'
+import { useRouter } from 'vue-router'
+import { obtenerIniciales } from '../utils/utils.js'
+
+const router = useRouter()
+
 
 const authStore = useAuthStore()
 
-const initiales = computed(() => {
-  const nombre = authStore.user?.nombre
-  if (!nombre) return '?'
-  return nombre.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)
-})
+
+const initiales = computed(() => obtenerIniciales(authStore.user?.nombre))
+
+const manejarLogout = () => {
+  authStore.logout()
+  router.push({ name: 'login' })
+}
 </script>

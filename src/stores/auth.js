@@ -1,5 +1,7 @@
 import { defineStore } from 'pinia'
+import { ROLES } from '../constants/index.js'
 import api from '../api/axios.js'
+
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
@@ -10,8 +12,8 @@ export const useAuthStore = defineStore('auth', {
 
   getters: {
     isLoggedIn: (state) => !!state.user,
-    isStudent: (state) => state.user?.rol === 'student',
-    isMentor: (state) => state.user?.rol === 'mentor',
+    isStudent: (state) => state.user?.rol === ROLES.ESTUDIANTE,
+    isMentor: (state) => state.user?.rol === ROLES.MENTOR,
   },
 
   actions: {

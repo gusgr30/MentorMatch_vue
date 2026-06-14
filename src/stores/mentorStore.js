@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import { mentors as mentorsImp } from '../mocks/mentors.js'
+import { useAuthStore } from './auth.js'
 import { reservas as reservasImp } from '../mocks/reservas.js'
 import { ESTADOS_RESERVA } from '../constants/index.js'
 
