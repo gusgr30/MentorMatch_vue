@@ -26,6 +26,48 @@ export const useReservaStore = defineStore('reserva', {
             }catch(error){
                 console.log(error)
             }
+        },
+
+        async confirmarReserva(id, urlZoom){
+            try{
+                const {data} = await api.put(`/reservas/${id}/confirmar`, {urlZoom})
+
+                const index = this.reservas.findIndex(r => r._id === id)
+                
+                if(index !== -1){
+                    this.reservas[index].estado = ESTADOS_RESERVA.CONFIRMADA
+                    this.reservas[index].urlZoom = urlZoom
+                    
+                    this.reservas = [...this.reservas]
+                }
+            }catch(error){
+                console.log(error)
+            }
+        },
+        
+        async cancelarReserva(id){
+            try{
+                const {data} = await api.put(`/reservas/${id}/cancelar`)
+                const index = this.reservas.findIndex(r => r._id === id)
+                if(index !== -1){
+                    this.reservas[index].estado = ESTADOS_RESERVA.CANCELADA
+                    this.reservas = [...this.reservas]
+                }
+            }catch(error){
+                console.log(error)
+            }
+        },
+        async actualizarReserva(id, urlZoom){
+            try{
+                const {data} = await api.put(`/reservas/${id}/`, {urlZoom})
+                const index = this.reservas.findIndex(r => r._id === id)
+                if(index !== -1){
+                    this.reservas[index].urlZoom = urlZoom
+                    this.reservas = [...this.reservas]
+                }
+            }catch(error){
+                console.log(error)
+            }
         }
     }
 
