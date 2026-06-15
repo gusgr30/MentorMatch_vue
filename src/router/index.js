@@ -45,8 +45,11 @@ const routes = [
   },
   {
     path: "/:pathMatch(.*)*",
-    redirect: "/",
-  }
+    redirect: () => {
+      const authStore = useAuthStore()
+      return authStore.isMentor ? { name: "mentorDashboard" } : { name: "home" }
+    },
+  },
 ];
 
 const router = createRouter({
@@ -60,7 +63,9 @@ router.beforeEach((to) => {
     return { name: "login" };
   }
   if (to.name === "login" && authStore.isLoggedIn) {
-    //TODO:modificar la ruta del mentor por el nombre correcto
+    return authStore.isMentor ? { name: "mentorDashboard" } : { name: "home" };
+  }
+  if (to.meta.rol && to.meta.rol !== authStore.user?.rol) {
     return authStore.isMentor ? { name: "mentorDashboard" } : { name: "home" };
   }
 });
