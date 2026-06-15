@@ -1,11 +1,9 @@
 <template>
   <div>
-    <header class="mb-10 text-center md:text-left">
-      <h1 class="text-3xl font-extrabold text-gray-900 sm:text-4xl tracking-tight">
-        Encuentra a tu mentor
-      </h1>
-      <h4>Buscá un experto, seleccioná un horario y reservá clases personalizadas.</h4>
-    </header>
+    <PageHeader 
+      title="Encuentra a tu mentor"
+      subtitle="Buscá un experto, seleccioná un horario y reservá clases personalizadas."
+    />
 
     <div class="flex flex-col lg:flex-row gap-8">
       <FilterPanel v-model="filterTech" :techs="allTechs" @goToMentorias="goToMisMentorias" :reservas-activas="reservasActivas" />
@@ -23,6 +21,7 @@ import { useRouter } from "vue-router";
 import api from "../../api/axios.js";
 import MentorCard from "../../components/MentorCard.vue";
 import FilterPanel from "../../components/FilterPanel.vue";
+import PageHeader from "../../components/PageHeader.vue";
 
 import { useAuthStore } from "../../stores/auth.js";
 import { useReservaStore } from "../../stores/reserva.js";
