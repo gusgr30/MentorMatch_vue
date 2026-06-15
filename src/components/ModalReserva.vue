@@ -23,7 +23,7 @@
         <CalendarClock :size="20" class="text-primary shrink-0" />
         <div>
           <p class="text-xs text-base-content/50 uppercase font-bold tracking-wider">Horario seleccionado</p>
-          <p class="text-base font-semibold text-base-content capitalize">{{ slot }}</p>
+          <p class="text-base font-semibold text-base-content capitalize">{{ formatearSlot(slot) }}</p>
         </div>
       </div>
 
@@ -46,6 +46,7 @@
 import { ref } from 'vue'
 import { CalendarClock, BadgeDollarSign } from '@lucide/vue'
 import ModalCommon from './ModalCommon.vue'
+import { formatearSlot } from '../utils/fecha.js'
 
 const props = defineProps({
   mentor: {
