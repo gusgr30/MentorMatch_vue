@@ -7,12 +7,19 @@
     </button>
   </div>
 
-  <div v-if="mentor">
-    <MentorCardDetail :mentor="mentor" @reservar="abrirModal" />
-    <ModalReserva ref="modalReservaRef" :mentor="mentor" :slot="reservaSlot" @confirmar="onConfirmar" />
+  <div v-if="loading" class="flex justify-center mt-20">
+    <span class="loading loading-spinner loading-lg text-primary"></span>
   </div>
 
-  <div v-else>Mentor no encontrado.</div>
+  <template v-else>
+    <div v-if="mentor">
+      <MentorCardDetail :mentor="mentor" @reservar="abrirModal" />
+      <ModalReserva ref="modalReservaRef" :mentor="mentor" :slot="reservaSlot" @confirmar="onConfirmar" />
+    </div>
+    <div v-else class="text-center text-base-content/40 mt-20">
+      <p class="text-lg font-semibold">No se encontró el mentor.</p>
+    </div>
+  </template>
 
 </template>
 
@@ -35,11 +42,17 @@ const { showToast } = useToast()
 const modalReservaRef = useTemplateRef('modalReservaRef')
 const reservaSlot = ref('')
 const mentor = ref(null)
-
+const loading = ref(true)
 
 onMounted(async () => {
-  const { data } = await api.get(`/usuarios/${route.params.id}`)
-  mentor.value = data
+  try {
+    const { data } = await api.get(`/usuarios/${route.params.id}`)
+    mentor.value = data
+  } catch {
+    mentor.value = null
+  } finally {
+    loading.value = false
+  }
 })
 
 const goToHome = () => {
