@@ -50,29 +50,37 @@
             <div class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold border border-indigo-200">
               {{ initiales }}
             </div>
-            <button @click="manejarLogout" class="text-sm font-medium text-gray-600 hidden md:inline">
-              Logout
+            <button @click="modalLogoutRef?.open()" class="text-sm font-medium text-gray-600 hidden md:inline cursor-pointer">
+                <LogOut />
             </button>
           </div>
         </div>
       </div>
     </div>
   </nav>
+
+  <ModalCommon
+    ref="modalLogoutRef"
+    title="Cerrar sesión"
+    confirm-label="Sí, salir"
+    cancel-label="Cancelar"
+    @confirmar="manejarLogout"
+  >
+    <p class="text-base-content/70">¿Estás seguro que querés cerrar sesión?</p>
+  </ModalCommon>
 </template>
 
 <script setup>
-import { computed } from 'vue'
-import { RouterLink } from 'vue-router'
-import { GraduationCap } from '@lucide/vue'
+import { computed, ref } from 'vue'
+import { RouterLink, useRouter } from 'vue-router'
+import { GraduationCap, LogOut } from '@lucide/vue'
 import { useAuthStore } from '../stores/auth.js'
-import { useRouter } from 'vue-router'
 import { obtenerIniciales } from '../utils/utils.js'
+import ModalCommon from './ModalCommon.vue'
 
 const router = useRouter()
-
-
 const authStore = useAuthStore()
-
+const modalLogoutRef = ref(null)
 
 const initiales = computed(() => obtenerIniciales(authStore.user?.nombre))
 
