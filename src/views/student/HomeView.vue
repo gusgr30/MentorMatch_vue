@@ -54,6 +54,7 @@ onMounted(async () => {
   const [{ data }] = await Promise.all([
     api.get("/usuarios", { params: { rol: "mentor" } }),
     skillsStore.cargarSkills(),
+    reservaStore.getReservas(authStore.user._id),
   ])
   mentors.value = data;
 });
@@ -66,8 +67,5 @@ const goToMisMentorias = () => {
   router.push({ name: "misMentorias" });
 };
 
-const reservasActivas = computed(() => {
-  reservaStore.getReservas(authStore.user._id);
-  return reservaStore.reservas.length
-})
+const reservasActivas = computed(() => reservaStore.reservas.length)
 </script>
