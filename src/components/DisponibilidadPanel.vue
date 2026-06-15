@@ -5,7 +5,7 @@
 
       <ul class="flex flex-col gap-2 max-h-56 overflow-y-auto pr-1">
         <li
-          v-for="slot in disponibilidad"
+          v-for="slot in slotsOrdenados"
           :key="slot"
           @click="selected = slot"
           class="flex items-center justify-between px-4 py-3 rounded-xl border cursor-pointer transition-all"
@@ -15,7 +15,7 @@
               : 'border-base-200 text-base-content hover:border-primary/40 hover:bg-base-200'
           "
         >
-          <span class="text-sm capitalize">{{ slot }}</span>
+          <span class="text-sm capitalize">{{ formatearSlot(slot) }}</span>
           <ChevronRight :size="16" class="opacity-40" />
         </li>
       </ul>
@@ -30,11 +30,12 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { ChevronRight } from "@lucide/vue";
 import ButtonCommon from "./ButtonCommon.vue";
+import { formatearSlot, ordenarSlots } from "../utils/fecha.js";
 
-defineProps({
+const props = defineProps({
   disponibilidad: {
     type: Array,
     required: true,
@@ -44,4 +45,5 @@ defineProps({
 defineEmits(["reservar"]);
 
 const selected = ref(null);
+const slotsOrdenados = computed(() => ordenarSlots(props.disponibilidad));
 </script>
