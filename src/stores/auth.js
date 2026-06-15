@@ -33,7 +33,20 @@ export const useAuthStore = defineStore('auth', {
       }
     },
 
-//TODO:agregar register
+    async register(payload) {
+      this.loading = true
+      this.error = null
+      try {
+        const { data } = await api.post('/usuarios/', payload)
+        this.user = data.user
+      }catch(err){
+        this.error = err.response?.data?.error ?? err.message
+        throw err
+      }finally{
+        this.loading = false
+      }
+
+    },
 
     logout() {
       this.user = null
