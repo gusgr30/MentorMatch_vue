@@ -3,7 +3,7 @@
         class="mb-8 border-b pb-4 hidden md:flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
             <h1 class="text-3xl font-extrabold text-indigo-900">Portal del Mentor</h1>
-            <p class="text-gray-500 mt-1">Panel de control profesional para {{ authStore.user.nombre }}</p>
+            <p class="text-gray-500 mt-1">Panel de control profesional para {{ authStore.user?.nombre }}</p>
         </div>
     </div>
     <div class="space-y-6">
