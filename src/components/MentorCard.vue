@@ -1,6 +1,6 @@
 <template>
   <div
-    @click="$emit('clickCard', mentor.id)"
+    @click="$emit('clickCard', mentor._id)"
     class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden cursor-pointer hover:-translate-y-1 transition-all duration-300 flex flex-col h-full group"
   >
     <div
@@ -12,10 +12,8 @@
       />
 
       <img
-        :src="
-          mentor.fotoUrl ||
-          `https://api.dicebear.com/7.x/avataaars/svg?seed=${mentor.nombre}`
-        "
+        :src="resolverFoto(mentor.fotoUrl, mentor.nombre)"
+        @error="(e) => e.target.src = `https://api.dicebear.com/7.x/avataaars/svg?seed=${mentor.nombre}`"
         class="w-16 h-16 rounded-xl bg-white border-4 border-white shadow-md -mb-4 transition-transform group-hover:scale-105 duration-300"
         alt="Foto Perfil"
       />
@@ -44,7 +42,7 @@
         </span>
       </div>
 
-      <ButtonCommon class="w-full" @click="$emit('clickCard', mentor.id)">
+      <ButtonCommon class="w-full" @click="$emit('clickCard', mentor._id)">
         Ver perfil
       </ButtonCommon>
     </div>
@@ -54,6 +52,7 @@
 <script setup>
 import Pill from "./Pill.vue";
 import ButtonCommon from "./ButtonCommon.vue";
+import { resolverFoto } from "../utils/fecha.js";
 
 const props = defineProps({
   mentor: {
