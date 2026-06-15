@@ -1,11 +1,9 @@
 <template>
-    <div
-        class="mb-8 border-b pb-4 hidden md:flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-        <div>
-            <h1 class="text-3xl font-extrabold text-indigo-900">Portal del Mentor</h1>
-            <p class="text-gray-500 mt-1">Panel de control profesional para {{ authStore.user?.nombre }}</p>
-        </div>
-    </div>
+    <PageHeader 
+        title="Portal del Mentor" 
+        :subtitle="`Panel de control profesional para ${ authStore.user?.nombre }`"
+    />
+
     <div class="space-y-6">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <StatCard titulo="CLASES POR CONFIRMAR" :valor="reservasPendientes" color="yellow" />
@@ -36,6 +34,7 @@ import { useReservaStore } from "../../stores/reserva";
 import { useAuthStore } from "../../stores/auth";
 import StatCard from "../../components/StatCard.vue";
 import ApplicationCard from "../../components/ApplicationCard.vue";
+import PageHeader from "../../components/PageHeader.vue";
 
 const authStore = useAuthStore();
 const reservaStore = useReservaStore();
