@@ -41,6 +41,8 @@ const loading = ref(true)
 const reservaSeleccionada = ref(null)
 const modalCancelRef = useTemplateRef('modalCancelRef')
 
+//REVISAR SI NO CONVIENE USAR EL STORE DE RESERVA, LLAMANDO A LA FUNCION getReservas(id)
+
 const cargarReservas = async () => {
   const { data } = await api.get(`/reservas/usuario/${authStore.user._id}`)
   reservas.value = data.sort((a, b) => new Date(a.fechaHora) - new Date(b.fechaHora))

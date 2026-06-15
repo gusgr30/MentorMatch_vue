@@ -20,7 +20,7 @@
       class="bg-indigo-900 p-6 rounded-2xl shadow-lg text-white cursor-pointer hover:bg-indigo-800 transition transform active:scale-95"
     >
       <p class="text-indigo-300 text-xs uppercase font-bold mb-1 tracking-widest">Tu Actividad</p>
-      <h4 class="text-xl font-bold">Reservas Activas: 1</h4>
+      <h4 class="text-xl font-bold">Reservas Activas: {{ reservasActivas }}</h4>
       <p class="text-[10px] text-indigo-400 mt-4 underline font-medium">
         Ver detalles de mis turnos
       </p>
@@ -40,6 +40,10 @@ const props = defineProps({
   techs: {
     type: Array,
     required: true,
+  },
+  reservasActivas: {
+    type: Number,
+    default: 0,
   },
 })
 

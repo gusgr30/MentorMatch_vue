@@ -8,7 +8,7 @@
     </header>
 
     <div class="flex flex-col lg:flex-row gap-8">
-      <FilterPanel v-model="filterTech" :techs="allTechs" @goToMentorias="goToMisMentorias" />
+      <FilterPanel v-model="filterTech" :techs="allTechs" @goToMentorias="goToMisMentorias" :reservas-activas="reservasActivas" />
 
       <div class="flex-1 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
         <MentorCard v-for="mentor in filteredMentors" :key="mentor._id" :mentor="mentor" @clickCard="goToDetail" />
@@ -23,6 +23,11 @@ import { useRouter } from "vue-router";
 import api from "../../api/axios.js";
 import MentorCard from "../../components/MentorCard.vue";
 import FilterPanel from "../../components/FilterPanel.vue";
+
+import { useAuthStore } from "../../stores/auth.js";
+import { useReservaStore } from "../../stores/reserva.js";
+const authStore = useAuthStore();
+const reservaStore = useReservaStore();
 
 const router = useRouter();
 const filterTech = ref("");
@@ -52,4 +57,9 @@ const goToDetail = (id) => {
 const goToMisMentorias = () => {
   router.push({ name: "misMentorias" });
 };
+
+const reservasActivas = computed(() => {
+  reservaStore.getReservas(authStore.user._id);
+  return reservaStore.reservas.length
+})
 </script>
