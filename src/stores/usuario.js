@@ -21,7 +21,6 @@ export const useUsuarioStore = defineStore('usuario', {
     async actualizarUsuario(id, payload){
       try{
         const { data } = await api.put(`/usuarios/${id}`, payload)
-        console.log(data)
         this.user = data
       }catch(error){
         console.log(error)

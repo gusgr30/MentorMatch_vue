@@ -19,7 +19,7 @@
             <label class="text-xs font-bold text-gray-400 uppercase tracking-wider block mb-2">
                 Hora de inicio
             </label>
-            <input type="time" v-model="selectedTime" class="w-full p-3 border rounded-xl outline-none bg-gray-50 focus:ring-2 focus:ring-indigo-500">
+            <input type="time" v-model="selectedTime" step="900" class="w-full p-3 border rounded-xl outline-none bg-gray-50 focus:ring-2 focus:ring-indigo-500">
         </div>
 
         <!-- Implementar BUTTONCOMMON -->
@@ -46,6 +46,7 @@
                 v-for="disp in disponibilidadUsuario"
                 :key="disp"
                 :texto="disp"
+                @click="eliminarDisponibilidad(disp)"
             />
         </div>
     </div>
@@ -92,6 +93,16 @@ const agregarDisponibilidad = async () =>{
     
     selectedDay.value = 'Lunes'
     selectedTime.value = '14:00' 
+}
+
+const eliminarDisponibilidad = async (dateTimeAEliminar) => {
+    const index = disponibilidadUsuario.value.indexOf(dateTimeAEliminar)
+    if(index === -1) return
+
+    disponibilidadUsuario.value.splice(index, 1)
+    const payload = {mentorProfile: {disponibilidad: disponibilidadUsuario.value}}
+    await usuarioStore.actualizarUsuario(idUsuario, payload)
+ 
 }
 
 
