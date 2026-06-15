@@ -11,28 +11,38 @@
       <FilterPanel v-model="filterTech" :techs="allTechs" @goToMentorias="goToMisMentorias" />
 
       <div class="flex-1 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-        <MentorCard v-for="mentor in filteredMentors" :key="mentor.id" :mentor="mentor" @clickCard="goToDetail" />
+        <MentorCard v-for="mentor in filteredMentors" :key="mentor._id" :mentor="mentor" @clickCard="goToDetail" />
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { useRouter } from "vue-router";
-import { mentors } from "../../mocks/mentors.js";
+import api from "../../api/axios.js";
 import MentorCard from "../../components/MentorCard.vue";
 import FilterPanel from "../../components/FilterPanel.vue";
 
 const router = useRouter();
 const filterTech = ref("");
-const allTechs = ["React", "Vue", "Node.js", "Python", "AWS", "TypeScript"];
+const mentors = ref([]);
+
+const allTechs = computed(() => {
+  const skills = mentors.value.flatMap((m) => m.mentorProfile?.skills ?? []);
+  return [...new Set(skills)];
+});
 
 const filteredMentors = computed(() => {
-  if (!filterTech.value) return mentors;
-  return mentors.filter((m) =>
-    m.mentorProfile.skills.includes(filterTech.value),
+  if (!filterTech.value) return mentors.value;
+  return mentors.value.filter((m) =>
+    m.mentorProfile?.skills.includes(filterTech.value),
   );
+});
+
+onMounted(async () => {
+  const { data } = await api.get("/usuarios", { params: { rol: "mentor" } });
+  mentors.value = data;
 });
 
 const goToDetail = (id) => {
@@ -42,5 +52,4 @@ const goToDetail = (id) => {
 const goToMisMentorias = () => {
   router.push({ name: "misMentorias" });
 };
-
 </script>
