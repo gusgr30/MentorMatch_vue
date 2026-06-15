@@ -13,23 +13,34 @@
   </div>
 
   <div v-else>Mentor no encontrado.</div>
+
 </template>
 
 <script setup>
-import { ref, computed, useTemplateRef } from 'vue'
-// La ventaja de useTemplateRef es que el nombre del ref en el template está explícito como string, dejando más claro que es una referencia al DOM/componente y no un simple estado reactivo.
+import { ref, useTemplateRef, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { MoveLeft } from '@lucide/vue'
-import { mentors } from '../../mocks/mentors.js'
+import api from '../../api/axios.js'
+import { useAuthStore } from '../../stores/auth.js'
+import { slotAFechaISO } from '../../utils/fecha.js'
+import { useToast } from '../../composables/useToast.js'
 import MentorCardDetail from '../../components/MentorCardDetail.vue'
 import ModalReserva from "../../components/ModalReserva.vue"
 
 const router = useRouter()
 const route = useRoute()
+const authStore = useAuthStore()
+const { showToast } = useToast()
 
-const mentor = computed(() => mentors.find((m) => m.id === route.params.id))
 const modalReservaRef = useTemplateRef('modalReservaRef')
 const reservaSlot = ref('')
+const mentor = ref(null)
+
+
+onMounted(async () => {
+  const { data } = await api.get(`/usuarios/${route.params.id}`)
+  mentor.value = data
+})
 
 const goToHome = () => {
   router.push({ name: 'home' })
@@ -40,11 +51,22 @@ const abrirModal = ({ slot }) => {
   modalReservaRef.value?.open()
 }
 
-const onConfirmar = ({ mentor, slot }) => {
-  console.log('Reserva confirmada:', { mentor, slot })
-  // acá va el POST al backend
-  modalReservaRef.value.setLoading(true)
-  modalReservaRef.value.close()
-  modalReservaRef.value.setLoading(false)
+const onConfirmar = async ({ mentor: mentorData, slot }) => {
+  try {
+    modalReservaRef.value.setLoading(true)
+    await api.post('/reservas', {
+      studentId: authStore.user._id,
+      mentorId: mentorData._id,
+      fechaHora: slotAFechaISO(slot),
+    })
+    modalReservaRef.value.close()
+    showToast('¡Reserva confirmada!', 'success')
+    setTimeout(() => router.push({ name: 'misMentorias' }), 2500)
+  } catch (err) {
+    showToast(err.response?.data?.error ?? 'Error al crear la reserva', 'error')
+  } finally {
+    modalReservaRef.value.setLoading(false)
+  }
 }
 </script>
+
