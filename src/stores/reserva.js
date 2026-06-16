@@ -1,7 +1,11 @@
-import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import { ESTADOS_RESERVA, ROLES } from '../constants/index.js'
-import api from '../api/axios.js'
+import { ESTADOS_RESERVA } from '../constants/index.js'
+import {
+  getReservasByUsuario,
+  confirmarReserva as confirmarReservaService,
+  cancelarReserva as cancelarReservaService,
+  actualizarReserva as actualizarReservaService,
+} from '../services/reservaService.js'
 
 
 export const useReservaStore = defineStore('reserva', {
@@ -20,7 +24,7 @@ export const useReservaStore = defineStore('reserva', {
     actions: {
         async getReservas(id) {
             try{
-                const {data} = await api.get(`/reservas/usuario/${id}`)
+                const {data} = await getReservasByUsuario(id)
                 console.log(data)
                 this.reservas = data
             }catch(error){
@@ -30,7 +34,7 @@ export const useReservaStore = defineStore('reserva', {
 
         async confirmarReserva(id, urlZoom){
             try{
-                const {data} = await api.put(`/reservas/${id}/confirmar`, {urlZoom})
+                const {data} = await confirmarReservaService(id, urlZoom)
 
                 const index = this.reservas.findIndex(r => r._id === id)
                 
@@ -47,7 +51,7 @@ export const useReservaStore = defineStore('reserva', {
         
         async cancelarReserva(id){
             try{
-                const {data} = await api.put(`/reservas/${id}/cancelar`)
+                const {data} = await cancelarReservaService(id)
                 const index = this.reservas.findIndex(r => r._id === id)
                 if(index !== -1){
                     this.reservas[index].estado = ESTADOS_RESERVA.CANCELADA
@@ -59,7 +63,7 @@ export const useReservaStore = defineStore('reserva', {
         },
         async actualizarReserva(id, urlZoom){
             try{
-                const {data} = await api.put(`/reservas/${id}/`, {urlZoom})
+                const {data} = await actualizarReservaService(id, urlZoom)
                 const index = this.reservas.findIndex(r => r._id === id)
                 if(index !== -1){
                     this.reservas[index].urlZoom = urlZoom
