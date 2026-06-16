@@ -9,5 +9,7 @@ export const getUsuarioById = (id) =>
 export const crearUsuario = (payload) =>
   api.post('/usuarios/', payload)
 
-export const actualizarUsuario = (id, payload) =>
-  api.put(`/usuarios/${id}`, payload)
+export const actualizarUsuario = (id, formData) =>
+  api.put(`/usuarios/${id}`, formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  })
