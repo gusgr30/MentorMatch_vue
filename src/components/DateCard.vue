@@ -5,7 +5,7 @@
                     <span class="font-bold text-gray-700"> {{texto}} </span>
                 </div>
                 <button
-                    class="text-red-500 hover:text-red-700 p-2 hover:bg-red-50 rounded-xl transition touch-manipulation"  
+                    class="cursor-pointer text-red-500 hover:text-red-700 p-2 hover:bg-red-50 rounded-xl transition touch-manipulation"  
                     @click="$emit(`click`)"
                     >
                         <Trash2 :size="20" :stroke-width="2.5" color="red" />
