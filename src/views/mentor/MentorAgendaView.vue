@@ -8,18 +8,18 @@
             Agregar Bloque Horario
         </h3>
         <div>
-            <label class="text-xs font-bold text-gray-400 uppercase tracking-wider block mb-2">
+            <label :class="VARIANT_CLASS.LABEL">
                 Día de la semana
             </label>
-            <select v-model="selectedDay" class="w-full p-3 border rounded-xl outline-none bg-gray-50 focus:ring-2 focus:ring-indigo-500">
+            <select v-model="selectedDay" :class="VARIANT_CLASS.DEFAULT">
                 <option v-for="day in days" :value="day" :key="day">{{day}}</option>
             </select>
         </div>
         <div>
-            <label class="text-xs font-bold text-gray-400 uppercase tracking-wider block mb-2">
+            <label :class="VARIANT_CLASS.LABEL">
                 Hora de inicio
             </label>
-            <input type="time" v-model="selectedTime" step="900" class="w-full p-3 border rounded-xl outline-none bg-gray-50 focus:ring-2 focus:ring-indigo-500">
+            <input type="time" v-model="selectedTime" step="900" :class="VARIANT_CLASS.DEFAULT">
         </div>
 
         <!-- Implementar BUTTONCOMMON -->
@@ -56,12 +56,14 @@
 
 <script setup>
 import PageHeader from "../../components/PageHeader.vue";
+import DateCard from '../../components/DateCard.vue'
+
+import {VARIANT_CLASS} from '../../constants/styles.js'
 
 import { computed, onMounted, ref } from 'vue'
 import { Funnel, HouseHeart } from '@lucide/vue'
 import { useAuthStore } from '../../stores/auth.js'
 import { useUsuarioStore } from '../../stores/usuario.js'
-import DateCard from '../../components/DateCard.vue'
 import { ordenarSlots } from '../../utils/fecha.js'
 import { useToast } from '../../composables/useToast.js'
 

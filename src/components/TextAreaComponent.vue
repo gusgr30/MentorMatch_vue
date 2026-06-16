@@ -1,6 +1,6 @@
 <template>
     <div class="mb-6">
-        <label class="text-xs font-bold text-gray-400 uppercase tracking-wider block mb-2">
+        <label :class="VARIANT_CLASS.LABEL">
         {{props.label.toUpperCase()}}
         </label>
         <textarea 
