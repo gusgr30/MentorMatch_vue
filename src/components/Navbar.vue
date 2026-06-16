@@ -35,7 +35,10 @@
             <span class="text-sm font-medium text-gray-600 hidden md:inline">
               Hola, {{ authStore.user?.nombre }}
             </span>
-            <div
+            <img v-if="authStore.user?.fotoUrl"
+              :src="resolverFoto(authStore.user.fotoUrl, authStore.user.nombre)"
+              class="w-10 h-10 rounded-full object-cover border border-indigo-200" />
+            <div v-else
               class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold border border-indigo-200">
               {{ initiales }}
             </div>
@@ -61,6 +64,7 @@ import { RouterLink, useRouter } from 'vue-router'
 import { GraduationCap, LogOut } from '@lucide/vue'
 import { useAuthStore } from '../stores/auth.js'
 import { obtenerIniciales } from '../utils/utils.js'
+import { resolverFoto } from '../utils/utils.js'
 import ModalCommon from './ModalCommon.vue'
 
 const router = useRouter()

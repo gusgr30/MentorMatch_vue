@@ -52,7 +52,7 @@
 <script setup>
 import Pill from "./Pill.vue";
 import ButtonCommon from "./ButtonCommon.vue";
-import { resolverFoto } from "../utils/fecha.js";
+import { resolverFoto } from "../utils/utils.js";
 
 const props = defineProps({
   mentor: {

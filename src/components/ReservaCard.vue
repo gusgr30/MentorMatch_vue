@@ -32,7 +32,8 @@
 <script setup>
 import { computed } from 'vue'
 import { CalendarClock, Video } from '@lucide/vue'
-import { formatearFecha, resolverFoto } from '../utils/fecha.js'
+import { resolverFoto } from '../utils/utils.js'
+import { formatearFecha } from '../utils/fecha.js'
 import ButtonCommon from './ButtonCommon.vue'
 import StatusBadge from './StatusBadge.vue'
 import { ESTADOS_RESERVA } from '../constants/index.js'

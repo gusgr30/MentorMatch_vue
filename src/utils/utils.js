@@ -1,3 +1,9 @@
+export const resolverFoto = (fotoUrl, seed) => {
+  if (!fotoUrl) return `https://api.dicebear.com/7.x/avataaars/svg?seed=${seed}`
+  if (fotoUrl.startsWith('http')) return fotoUrl
+  return `${import.meta.env.VITE_API_URL_BACK?.replace('/api', '')}${fotoUrl}`
+}
+
 export const obtenerIniciales = (nombre) =>{
     if (!nombre) return '?'
 
