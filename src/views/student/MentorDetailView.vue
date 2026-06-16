@@ -1,6 +1,6 @@
 <template>
   <div class="mb-4">
-    <button @click="goToHome"
+    <button @click="router.back()"
       class="flex items-center gap-2 text-[#4f39f6] font-semibold cursor-pointer transition-all duration-200 hover:opacity-80 hover:-translate-x-1">
       <MoveLeft :size="24" />
       <span>Volver</span>
@@ -27,7 +27,8 @@
 import { ref, useTemplateRef, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { MoveLeft } from '@lucide/vue'
-import api from '../../api/axios.js'
+import { getUsuarioById } from '../../services/usuarioService.js'
+import { crearReserva } from '../../services/reservaService.js'
 import { useAuthStore } from '../../stores/auth.js'
 import { slotAFechaISO } from '../../utils/fecha.js'
 import { useToast } from '../../composables/useToast.js'
@@ -46,7 +47,7 @@ const loading = ref(true)
 
 onMounted(async () => {
   try {
-    const { data } = await api.get(`/usuarios/${route.params.id}`)
+    const { data } = await getUsuarioById(route.params.id)
     mentor.value = data
   } catch {
     mentor.value = null
@@ -54,10 +55,6 @@ onMounted(async () => {
     loading.value = false
   }
 })
-
-const goToHome = () => {
-  router.push({ name: 'home' })
-}
 
 const abrirModal = ({ slot }) => {
   reservaSlot.value = slot
@@ -67,18 +64,18 @@ const abrirModal = ({ slot }) => {
 const onConfirmar = async ({ mentor: mentorData, slot }) => {
   try {
     modalReservaRef.value.setLoading(true)
-    await api.post('/reservas', {
+    await crearReserva({
       studentId: authStore.user._id,
       mentorId: mentorData._id,
       fechaHora: slotAFechaISO(slot),
     })
+    modalReservaRef.value.setLoading(false)
     modalReservaRef.value.close()
     showToast('¡Reserva confirmada!', 'success')
-    setTimeout(() => router.push({ name: 'misMentorias' }), 2500)
+    router.push({ name: 'misMentorias' })
   } catch (err) {
-    showToast(err.response?.data?.error ?? 'Error al crear la reserva', 'error')
-  } finally {
     modalReservaRef.value.setLoading(false)
+    showToast(err.response?.data?.error ?? 'Error al crear la reserva', 'error')
   }
 }
 </script>
