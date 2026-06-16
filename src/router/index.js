@@ -39,9 +39,9 @@ const routes = [
   },
   {
     path: "/portal/perfil",
-    name: "mentorPerfil",
-    component: ()=> import("../views/mentor/MentorPerfilView.vue"),
-    meta: { requiresAuth: true, rol: "mentor" },
+    name: "userPerfil",
+    component: ()=> import("../views/ProfileView.vue"),
+    meta: { requiresAuth: true},
   },
   {
     path: "/:pathMatch(.*)*",

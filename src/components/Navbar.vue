@@ -26,7 +26,7 @@
             class="transition font-medium flex items-center gap-2" active-class="text-indigo-600 font-bold">
             Mi Agenda
           </RouterLink>
-          <RouterLink v-if="authStore.isMentor" to="/portal/perfil"
+          <RouterLink to="/portal/perfil"
             class="transition font-medium flex items-center gap-2" active-class="text-indigo-600 font-bold">
             Mi Perfil
           </RouterLink>

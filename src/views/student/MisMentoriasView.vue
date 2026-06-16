@@ -1,11 +1,9 @@
 <template>
     <div>
-        <header class="mb-10 text-center md:text-left">
-            <h1 class="text-3xl font-extrabold text-gray-900 sm:text-4xl tracking-tight">
-                Mis mentorías reservadas
-            </h1>
-            <h4>Seguimiento de tus solicitudes y estado de confirmación.</h4>
-        </header>
+        <PageHeader 
+          title="Mis mentorías reservadas"
+          subtitle="Seguimiento de tus solicitudes y estado de confirmación."
+        />
 
         <div v-if="loading" class="flex justify-center mt-20">
             <span class="loading loading-spinner loading-lg text-primary"></span>
@@ -30,6 +28,8 @@
 import { ref, useTemplateRef, onMounted } from 'vue'
 import ReservaCard from '../../components/ReservaCard.vue'
 import ModalCancel from '../../components/ModalCancel.vue'
+import PageHeader from "../../components/PageHeader.vue";
+
 import { getReservasByUsuario, cancelarReserva } from '../../services/reservaService.js'
 import { useAuthStore } from '../../stores/auth.js'
 import { useToast } from '../../composables/useToast.js'

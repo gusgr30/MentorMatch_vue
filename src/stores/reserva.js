@@ -25,7 +25,6 @@ export const useReservaStore = defineStore('reserva', {
         async getReservas(id) {
             try{
                 const {data} = await getReservasByUsuario(id)
-                console.log(data)
                 this.reservas = data
             }catch(error){
                 console.log(error)

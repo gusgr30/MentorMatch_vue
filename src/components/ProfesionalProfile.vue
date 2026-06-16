@@ -1,20 +1,16 @@
 <template>
-    <PageHeader title="Portal del Mentor" :subtitle="`Panel de control profesional para ${authStore.user?.nombre }`"/>    
-
-    <div class="max-w-3xl bg-white p-8 rounded-3xl border border-gray-100 shadow-sm">
-        <h3 class="font-bold text-xl text-gray-900 border-b pb-3 mb-6">Editar Datos Profesionales</h3>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="max-w-3xl bg-white p-8 rounded-3xl border border-gray-100 shadow-sm">
+            <h3 class="font-bold text-xl text-gray-900 border-b pb-3 mb-6">Editar Datos Profesionales</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             
-            <!-- LES FALTA EL V-MODEL -->
-            <InputComponent :disabled=isSaved label="título profesional" type="text" v-model="formData.tituloProfesional" />     
-            <InputComponent :disabled=isSaved label="experiencia actual (años)" type="number" v-model="formData.experienciaActual" />
-            <InputComponent :disabled=isSaved label="tarifa por hora (usd)" type="number" v-model="formData.tarifaPorHora" />
-            <InputComponent :disabled=isSaved label="linkedin url" type="text" v-model="formData.linkedinUrl" />
+            <InputComponent :disabled="isSaved" label="título profesional" type="text" v-model="formData.tituloProfesional" />     
+            <InputComponent :disabled="isSaved" label="experiencia actual (años)" type="number" v-model="formData.experienciaActual" />
+            <InputComponent :disabled="isSaved" label="tarifa por hora (usd)" type="number" v-model="formData.tarifaPorHora" />
+            <InputComponent :disabled="isSaved" label="linkedin url" type="text" v-model="formData.linkedinUrl" />
 
         </div>
 
-            <!--  LE FALTA EL V-MODEL -->
-        <TextAreaComponent :disabled=isSaved label="Biografía Profesional" v-model="formData.biografiaProfesional"/>
+        <TextAreaComponent :disabled="isSaved" label="Biografía Profesional" v-model="formData.biografiaProfesional"/>
 
         <div class="mb-6">
             <label
@@ -48,19 +44,19 @@
     </div>
 </template>
 <script setup>
-import PageHeader from "../../components/PageHeader.vue";
-import ButtonCommon from "../../components/ButtonCommon.vue";
-import InputComponent from "../../components/InputComponent.vue";
-import TextAreaComponent from "../../components/TextAreaComponent.vue";
+import ButtonCommon from "./ButtonCommon.vue";
+import InputComponent from "./InputComponent.vue";
+import TextAreaComponent from "./TextAreaComponent.vue";
 
-import { VARIANT_CLASS } from "../../constants/styles";
+import { VARIANT_CLASS } from "../constants/styles";
 
 import { onMounted, ref } from "vue";
 import { computed } from "vue";
-import { useAuthStore } from "../../stores/auth";
-import { useUsuarioStore } from "../../stores/usuario";
-import { useSkillsStore } from "../../stores/skills.js";
-import { useToast } from "../../composables/useToast";
+import { useAuthStore } from "../stores/auth";
+import { useUsuarioStore } from "../stores/usuario";
+import { useSkillsStore } from "../stores/skills.js";
+import { useToast } from "../composables/useToast";
+
 
 const { showToast } = useToast()
 
@@ -141,6 +137,4 @@ const cancelarEdicion = () => {
 
     toggleEdit()
 }
-
-
 </script>
