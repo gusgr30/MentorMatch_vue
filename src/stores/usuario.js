@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia'
-import { ROLES } from '../constants/index.js'
-import api from '../api/axios.js'
+import { getUsuarioById, actualizarUsuario as actualizarUsuarioService } from '../services/usuarioService.js'
 
 
 export const useUsuarioStore = defineStore('usuario', {
@@ -11,7 +10,7 @@ export const useUsuarioStore = defineStore('usuario', {
   actions: {
     async getUsuario(id){
       try{
-        const { data } = await api.get(`/usuarios/${id}`)
+        const { data } = await getUsuarioById(id)
         this.user = data
       }catch(error){
         console.log(error)
@@ -20,7 +19,7 @@ export const useUsuarioStore = defineStore('usuario', {
 
     async actualizarUsuario(id, payload){
       try{
-        const { data } = await api.put(`/usuarios/${id}`, payload)
+        const { data } = await actualizarUsuarioService(id, payload)
         this.user = data
       }catch(error){
         console.log(error)
