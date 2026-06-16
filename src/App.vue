@@ -13,11 +13,17 @@
 </template>
 
 <script setup>
+import { onMounted } from "vue";
 import { RouterView, useRoute } from "vue-router";
 import { useAuthStore } from "./stores/auth.js";
 import Navbar from "./components/Navbar.vue";
 import ToastContainer from "./components/ToastContainer.vue";
+import api from "./api/axios.js";
 
 const route = useRoute()
 const authStore = useAuthStore()
+
+onMounted(() => {
+  api.get('/health').catch(() => {})
+})
 </script>
