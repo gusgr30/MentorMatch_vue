@@ -41,7 +41,7 @@ import { ref } from "vue";
 import { useAuthStore } from "../stores/auth";
 import { useUsuarioStore } from "../stores/usuario";
 import { useToast } from "../composables/useToast";
-import { resolverFoto } from "../utils/fecha.js";
+import { resolverFoto } from "../utils/utils.js";
 
 
 const { showToast } = useToast()

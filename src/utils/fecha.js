@@ -1,11 +1,5 @@
 import { DateTime } from 'luxon'
 
-export function resolverFoto(fotoUrl, seed) {
-  if (!fotoUrl) return `https://api.dicebear.com/7.x/avataaars/svg?seed=${seed}`
-  if (fotoUrl.startsWith('http')) return fotoUrl
-  return `${import.meta.env.VITE_API_URL_BACK?.replace('/api', '')}${fotoUrl}`
-}
-
 export function formatearFecha(fechaISO) {
   if (!fechaISO) return '-'
   return DateTime.fromISO(fechaISO)
