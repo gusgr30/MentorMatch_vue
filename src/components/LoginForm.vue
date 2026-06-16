@@ -2,11 +2,8 @@
   <form @submit.prevent="onSubmit">
     <fieldset class="fieldset bg-base-200 border-base-300 rounded-box border p-4 gap-2 flex flex-col">
 
-      <label class="font-bold">EMAIL</label>
-      <input v-model="form.email" type="email" class="input w-full" placeholder="tu@email.com" required />
-
-      <label class="font-bold">CONTRASEÑA</label>
-      <input v-model="form.password" type="password" class="input w-full" placeholder="••••••••" required />
+      <InputComponent label="email" type="email" placeholder="tu@email.com" v-model="form.email" />
+      <InputComponent label="contraseña" type="password" placeholder="******" v-model="form.password" />
 
       <p v-if="error" class="text-sm text-red-600 font-medium">{{ error }}</p>
 
@@ -22,6 +19,8 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '../stores/auth.js'
 import ButtonCommon from './ButtonCommon.vue'
+import InputComponent from './InputComponent.vue'
+
 
 const router = useRouter()
 const authStore = useAuthStore()
