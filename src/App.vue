@@ -22,7 +22,7 @@ import api from "./api/axios.js";
 
 const route = useRoute()
 const authStore = useAuthStore()
-
+//despertar al back (render)
 onMounted(() => {
   api.get('/health').catch(() => {})
 })
