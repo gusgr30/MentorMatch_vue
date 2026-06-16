@@ -11,6 +11,19 @@
       <label class="font-bold">CONTRASEÑA</label>
       <input v-model="form.password" type="password" class="input w-full" placeholder="Mínimo 6 caracteres" required minlength="6" />
 
+      <label class="font-bold">FOTO DE PERFIL</label>
+      <div class="flex items-center gap-4">
+        <div class="relative shrink-0">
+          <img v-if="fotoPreview" :src="fotoPreview" class="w-14 h-14 rounded-full object-cover border border-base-300" />
+          <div v-else class="w-14 h-14 rounded-full bg-base-300 flex items-center justify-center text-base-content/40 text-xs">Sin foto</div>
+          <button v-if="fotoPreview" type="button" @click="quitarFoto"
+            class="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-red-500 text-white text-xs flex items-center justify-center hover:bg-red-600 transition">
+            ✕
+          </button>
+        </div>
+        <input ref="fotoInputRef" type="file" accept="image/*" class="file-input w-full" @change="onFotoChange" />
+      </div>
+
       <label class="font-bold mt-2">¿CÓMO VAS A USAR LA PLATAFORMA?</label>
       <select v-model="form.rol" class="select w-full">
         <option value="student">Quiero aprender (Alumno)</option>
@@ -111,6 +124,23 @@ const form = ref({
 
 const DIAS = ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo']
 
+const fotoArchivo = ref(null)
+const fotoPreview = ref(null)
+const fotoInputRef = ref(null)
+
+const onFotoChange = (e) => {
+  const archivo = e.target.files[0]
+  if (!archivo) return
+  fotoArchivo.value = archivo
+  fotoPreview.value = URL.createObjectURL(archivo)
+}
+
+const quitarFoto = () => {
+  fotoArchivo.value = null
+  fotoPreview.value = null
+  if (fotoInputRef.value) fotoInputRef.value.value = ''
+}
+
 const diaSeleccionado = ref('')
 const horaSeleccionada = ref('')
 
@@ -128,15 +158,18 @@ const eliminarSlot = (slot) => {
 }
 
 const handleRegister = async () => {
-  const payload = {
-    nombre: form.value.nombre,
-    email: form.value.email,
-    password: form.value.password,
-    rol: form.value.rol,
+  const formData = new FormData()
+  formData.append('nombre', form.value.nombre)
+  formData.append('email', form.value.email)
+  formData.append('password', form.value.password)
+  formData.append('rol', form.value.rol)
+
+  if (fotoArchivo.value) {
+    formData.append('fotoUrl', fotoArchivo.value)
   }
 
   if (form.value.rol === 'mentor') {
-    payload.mentorProfile = {
+    const mentorProfile = {
       titulo: form.value.titulo,
       descripcion: form.value.descripcion,
       experiencia: Number(form.value.experiencia),
@@ -145,10 +178,11 @@ const handleRegister = async () => {
       skills: form.value.skills,
       disponibilidad: form.value.disponibilidad,
     }
+    formData.append('mentorProfile', JSON.stringify(mentorProfile))
   }
 
   try {
-    await authStore.register(payload)
+    await authStore.register(formData)
     showToast('¡Cuenta creada con éxito!', 'success')
     await authStore.login(form.value.email, form.value.password)
     router.push(authStore.isMentor ? { name: 'mentorDashboard' } : { name: 'home' })
