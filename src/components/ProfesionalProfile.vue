@@ -5,7 +5,7 @@
             
             <InputComponent :disabled="isSaved" label="título profesional" type="text" v-model="formData.tituloProfesional" />     
             <InputComponent :disabled="isSaved" label="experiencia actual (años)" type="number" v-model="formData.experienciaActual" />
-            <InputComponent :disabled="isSaved" label="tarifa por hora (usd)" type="number" v-model="formData.tarifaPorHora" />
+            <InputComponent :disabled="isSaved" label="tarifa por hora" type="number" v-model="formData.tarifaPorHora" />
             <InputComponent :disabled="isSaved" label="linkedin url" type="text" v-model="formData.linkedinUrl" />
 
         </div>
