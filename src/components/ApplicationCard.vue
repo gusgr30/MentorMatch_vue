@@ -5,7 +5,10 @@
         <div class="flex items-center gap-6 flex-1">
             <!-- Columna 1: datos del alumno -->
             <div class="flex items-center gap-4 min-w-75">
-                <div class="w-12 h-12 rounded-full bg-indigo-100 flex items-center justify-center font-bold text-indigo-700 shrink-0">
+                <img v-if="reserva.student?.fotoUrl"
+                    :src="resolverFoto(reserva.student.fotoUrl, reserva.student.nombre)"
+                    class="w-12 h-12 rounded-full object-cover border border-indigo-200 shrink-0" />
+                <div v-else class="w-12 h-12 rounded-full bg-indigo-100 flex items-center justify-center font-bold text-indigo-700 shrink-0">
                     {{ iniciales }}
                 </div>
                 <div>
@@ -64,6 +67,7 @@ import ModalEditarReserva from "./ModalEditarReserva.vue";
 import { obtenerIniciales } from "../utils/utils.js";
 import { ESTADOS_RESERVA } from "../constants/index.js";
 import { formatearFecha } from "../utils/fecha.js";
+import { resolverFoto } from "../utils/utils.js";
 import { useReservaStore } from "../stores/reserva.js";
 import { useToast } from "../composables/useToast.js";
 
