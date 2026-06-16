@@ -1,5 +1,5 @@
 <template>
-  <span class="badge badge-outline font-bold uppercase text-xs min-w-30 justify-center" :class="badgeClass">
+  <span class="badge badge-outline rounded-full font-bold uppercase text-xs min-w-30 justify-center" :class="badgeClass">
     {{ estado }}
   </span>
 </template>
