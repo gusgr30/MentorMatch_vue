@@ -10,48 +10,38 @@
         </RouterLink>
 
         <div class="flex items-center space-x-8">
-            <RouterLink
-              v-if="authStore.isStudent"
-              to="/mis-mentorias"
-              class="transition font-medium flex items-center gap-2"
-              active-class="text-indigo-600 font-bold"
-            >
-              Mis Mentorías
-            </RouterLink>
-            <RouterLink
-              v-if="authStore.isMentor"
-              to="/portal/dashboard"
-              class="transition font-medium flex items-center gap-2"
-              active-class="text-indigo-600 font-bold"
-            >
-              Panel de Clases
-            </RouterLink>
-            <RouterLink
-              v-if="authStore.isMentor"
-              to="/portal/agenda"
-              class="transition font-medium flex items-center gap-2"
-              active-class="text-indigo-600 font-bold"
-            >
-              Mi Agenda
-            </RouterLink>
-            <RouterLink
-              v-if="authStore.isMentor"
-              to="/portal/perfil"
-              class="transition font-medium flex items-center gap-2"
-              active-class="text-indigo-600 font-bold"
-            >
-              Mi Perfil
-            </RouterLink>
+          <RouterLink v-if="authStore.isStudent" to="/" class="transition font-medium flex items-center gap-2"
+            active-class="text-indigo-600 font-bold">
+            Explorar mentores
+          </RouterLink>
+          <RouterLink v-if="authStore.isStudent" to="/mis-mentorias"
+            class="transition font-medium flex items-center gap-2" active-class="text-indigo-600 font-bold">
+            Mis Mentorías
+          </RouterLink>
+          <RouterLink v-if="authStore.isMentor" to="/portal/dashboard"
+            class="transition font-medium flex items-center gap-2" active-class="text-indigo-600 font-bold">
+            Panel de Clases
+          </RouterLink>
+          <RouterLink v-if="authStore.isMentor" to="/portal/agenda"
+            class="transition font-medium flex items-center gap-2" active-class="text-indigo-600 font-bold">
+            Mi Agenda
+          </RouterLink>
+          <RouterLink v-if="authStore.isMentor" to="/portal/perfil"
+            class="transition font-medium flex items-center gap-2" active-class="text-indigo-600 font-bold">
+            Mi Perfil
+          </RouterLink>
 
           <div class="flex items-center gap-3 pl-4 border-l border-gray-200">
             <span class="text-sm font-medium text-gray-600 hidden md:inline">
               Hola, {{ authStore.user?.nombre }}
             </span>
-            <div class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold border border-indigo-200">
+            <div
+              class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold border border-indigo-200">
               {{ initiales }}
             </div>
-            <button @click="modalLogoutRef?.open()" class="text-sm font-medium text-gray-600 hidden md:inline cursor-pointer">
-                <LogOut />
+            <button @click="modalLogoutRef?.open()"
+              class="text-sm font-medium text-gray-600 hidden md:inline cursor-pointer">
+              <LogOut />
             </button>
           </div>
         </div>
@@ -59,13 +49,8 @@
     </div>
   </nav>
 
-  <ModalCommon
-    ref="modalLogoutRef"
-    title="Cerrar sesión"
-    confirm-label="Sí, salir"
-    cancel-label="Cancelar"
-    @confirmar="manejarLogout"
-  >
+  <ModalCommon ref="modalLogoutRef" title="Cerrar sesión" confirm-label="Sí, salir" cancel-label="Cancelar"
+    @confirmar="manejarLogout">
     <p class="text-base-content/70">¿Estás seguro que querés cerrar sesión?</p>
   </ModalCommon>
 </template>
