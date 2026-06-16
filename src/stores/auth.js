@@ -1,6 +1,8 @@
 import { defineStore } from 'pinia'
 import { ROLES } from '../constants/index.js'
 import api from '../api/axios.js'
+import { login as loginService, me } from '../services/authService.js'
+import { crearUsuario } from '../services/usuarioService.js'
 
 
 export const useAuthStore = defineStore('auth', {
@@ -21,7 +23,7 @@ export const useAuthStore = defineStore('auth', {
       this.loading = true
       this.error = null
       try {
-        const { data } = await api.post('/auth/login', { email, password })
+        const { data } = await loginService(email, password)
         this.user = data.user
         localStorage.setItem('token', data.token)
         api.defaults.headers['Authorization'] = `Bearer ${data.token}`
@@ -37,7 +39,7 @@ export const useAuthStore = defineStore('auth', {
       this.loading = true
       this.error = null
       try {
-        const { data } = await api.post('/usuarios/', payload)
+        const { data } = await crearUsuario(payload)
         this.user = data.user
       }catch(err){
         this.error = err.response?.data?.error ?? err.message
@@ -60,7 +62,7 @@ export const useAuthStore = defineStore('auth', {
 
       try {
         api.defaults.headers['Authorization'] = `Bearer ${token}`
-        const { data } = await api.get('/auth/me')
+        const { data } = await me()
         this.user = data
       } catch {
         localStorage.removeItem('token')
