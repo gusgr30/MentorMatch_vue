@@ -30,7 +30,7 @@
 import { ref, useTemplateRef, onMounted } from 'vue'
 import ReservaCard from '../../components/ReservaCard.vue'
 import ModalCancel from '../../components/ModalCancel.vue'
-import api from '../../api/axios.js'
+import { getReservasByUsuario, cancelarReserva } from '../../services/reservaService.js'
 import { useAuthStore } from '../../stores/auth.js'
 import { useToast } from '../../composables/useToast.js'
 
@@ -44,7 +44,7 @@ const modalCancelRef = useTemplateRef('modalCancelRef')
 //REVISAR SI NO CONVIENE USAR EL STORE DE RESERVA, LLAMANDO A LA FUNCION getReservas(id)
 
 const cargarReservas = async () => {
-  const { data } = await api.get(`/reservas/usuario/${authStore.user._id}`)
+  const { data } = await getReservasByUsuario(authStore.user._id)
   reservas.value = data.sort((a, b) => new Date(a.fechaHora) - new Date(b.fechaHora))
 }
 
@@ -64,7 +64,7 @@ const abrirModalCancel = (reserva) => {
 const onConfirmarCancel = async (reserva) => {
   try {
     modalCancelRef.value.setLoading(true)
-    await api.put(`/reservas/${reserva._id}/cancelar`)
+    await cancelarReserva(reserva._id)
     modalCancelRef.value.close()
     showToast('Reserva cancelada correctamente', 'success')
     await cargarReservas()
