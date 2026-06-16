@@ -2,16 +2,21 @@
   <form @submit.prevent="handleRegister">
     <fieldset class="fieldset bg-base-200 border-base-300 rounded-box border p-4 gap-2 flex flex-col">
 
-      <label class="font-bold">NOMBRE COMPLETO</label>
-      <input v-model="form.nombre" type="text" class="input w-full" placeholder="Juan Pérez" required minlength="3" />
+      <!-- <label class="font-bold">NOMBRE COMPLETO</label>
+      <input v-model="form.nombre" type="text" class="input w-full" placeholder="Juan Pérez" required minlength="3" /> -->
+      
+      <!-- <label class="font-bold">EMAIL</label>
+      <input v-model="form.email" type="email" class="input w-full" placeholder="tu@email.com" required /> -->
 
-      <label class="font-bold">EMAIL</label>
-      <input v-model="form.email" type="email" class="input w-full" placeholder="tu@email.com" required />
+      <!-- <label class="font-bold">CONTRASEÑA</label>
+      <input v-model="form.password" type="password" class="input w-full" placeholder="Mínimo 6 caracteres" required minlength="6" /> -->
 
-      <label class="font-bold">CONTRASEÑA</label>
-      <input v-model="form.password" type="password" class="input w-full" placeholder="Mínimo 6 caracteres" required minlength="6" />
+      <InputComponent label="nombre completo" type="text" placeholder="Juan Pérez" v-model="form.nombre" />
+      <InputComponent label="email" type="email" placeholder="tu@email.com" v-model="form.email" />
+      <InputComponent label="contraseña" type="password" placeholder="Mínimo 6 caracteres" v-model="form.password" />
 
-      <label class="font-bold">FOTO DE PERFIL</label>
+
+      <label :class="VARIANT_CLASS.LABEL">FOTO DE PERFIL</label>
       <div class="flex items-center gap-4">
         <div class="relative shrink-0">
           <img v-if="fotoPreview" :src="fotoPreview" class="w-14 h-14 rounded-full object-cover border border-base-300" />
@@ -21,11 +26,15 @@
             ✕
           </button>
         </div>
-        <input ref="fotoInputRef" type="file" accept="image/*" class="file-input w-full" @change="onFotoChange" />
+        <input 
+          ref="fotoInputRef" 
+          type="file" accept="image/*" 
+          class="[VARIANT_CLASS.DEFAULT, 'file:mr-4 file:py-1 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-indigo-600 file:text-white hover:file:bg-indigo-700 file:cursor-pointer cursor-pointer !py-2 text-slate-500']" 
+          @change="onFotoChange" />
       </div>
 
-      <label class="font-bold mt-2">¿CÓMO VAS A USAR LA PLATAFORMA?</label>
-      <select v-model="form.rol" class="select w-full">
+      <label :class="VARIANT_CLASS.LABEL">¿CÓMO VAS A USAR LA PLATAFORMA?</label>
+      <select v-model="form.rol" :class="VARIANT_CLASS.DEFAULT">
         <option value="student">Quiero aprender (Alumno)</option>
         <option value="mentor">Quiero enseñar (Mentor)</option>
       </select>
@@ -33,19 +42,24 @@
       <div v-if="form.rol === 'mentor'" class="flex flex-col gap-2 mt-4 border-t border-gray-300 pt-4">
         <h3 class="text-indigo-700 font-bold mb-2">Perfil Profesional</h3>
 
-        <label class="font-bold text-xs">TÍTULO (Ej: Full Stack Developer)</label>
-        <input v-model="form.titulo" type="text" class="input w-full" required minlength="3" />
+        <!-- <label class="font-bold text-xs">TÍTULO (Ej: Full Stack Developer)</label>
+        <input v-model="form.titulo" type="text" class="input w-full" required minlength="3" /> -->
 
-        <label class="font-bold text-xs">AÑOS DE EXPERIENCIA</label>
-        <input v-model="form.experiencia" type="number" min="1" class="input w-full" required />
+        <InputComponent label="TÍTULO (Ej: Full Stack Developer)" type="text" v-model="form.titulo" />
+        <InputComponent label="AÑOS DE EXPERIENCIA" type="number" v-model="form.experiencia" />
+        <InputComponent label="TARIFA POR HORA" type="number" v-model="form.tarifa" />
+        <InputComponent label="LINKEDIN URL" type="url" v-model="form.linkedin" placeholder="https://linkedin.com/in/tuperfil" />
 
-        <label class="font-bold text-xs">TARIFA POR HORA</label>
+        <!-- <label class="font-bold text-xs">AÑOS DE EXPERIENCIA</label>
+        <input v-model="form.experiencia" type="number" min="1" class="input w-full" required /> -->
+
+        <!-- <label class="font-bold text-xs">TARIFA POR HORA</label>
         <input v-model="form.tarifa" type="number" min="1" class="input w-full" required />
 
         <label class="font-bold text-xs">LINKEDIN URL</label>
-        <input v-model="form.linkedin" type="url" class="input w-full" placeholder="https://linkedin.com/in/tuperfil" required />
+        <input v-model="form.linkedin" type="url" class="input w-full" placeholder="https://linkedin.com/in/tuperfil" required /> -->
 
-        <label class="font-bold text-xs">SKILLS</label>
+        <label :class="VARIANT_CLASS.LABEL">SKILLS</label>
         <Multiselect
           v-model="form.skills"
           :options="skillsStore.skills"
@@ -57,13 +71,13 @@
           no-results-text="No se encontraron resultados"
         />
 
-        <label class="font-bold text-xs">DISPONIBILIDAD</label>
+        <label :class="VARIANT_CLASS.LABEL">DISPONIBILIDAD</label>
         <div class="flex gap-2">
-          <select v-model="diaSeleccionado" class="select select-ms flex-1">
+          <select v-model="diaSeleccionado" :class="VARIANT_CLASS.DEFAULT">
             <option value="" disabled>Día</option>
             <option v-for="dia in DIAS" :key="dia" :value="dia">{{ dia }}</option>
           </select>
-          <input v-model="horaSeleccionada" type="time" class="select select-ms flex-1" />
+          <input v-model="horaSeleccionada" type="time" :class="VARIANT_CLASS.DEFAULT" />
           <button type="button" @click="agregarSlot" :disabled="!diaSeleccionado || !horaSeleccionada"
             class="btn btn-primary btn-sm text-white self-center">
               <CalendarPlus />
@@ -78,9 +92,10 @@
         </div>
         <p v-if="!form.disponibilidad.length" class="text-xs text-base-content/40">Agregá al menos un horario</p>
 
-        <label class="font-bold text-xs">DESCRIPCIÓN</label>
+        <TextAreaComponent label="descripción" v-model="form.descripcion"/>
+        <!-- <label class="font-bold text-xs">DESCRIPCIÓN</label>
         <textarea v-model="form.descripcion" class="input w-full h-24 py-2"
-          placeholder="Contanos sobre tu experiencia..." required minlength="10"></textarea>
+          placeholder="Contanos sobre tu experiencia..." required minlength="10"></textarea> -->
       </div>
 
       <ButtonCommon class="w-full mt-4" :disabled="authStore.loading" @click="handleRegister">
@@ -99,7 +114,12 @@ import { useAuthStore } from '../stores/auth.js'
 import { useSkillsStore } from '../stores/skills.js'
 import { useToast } from '../composables/useToast.js'
 import ButtonCommon from './ButtonCommon.vue'
+import InputComponent from './InputComponent.vue'
+import TextAreaComponent from './TextAreaComponent.vue'
 import { CalendarPlus } from '@lucide/vue';
+
+import { VARIANT_CLASS } from '../constants/styles.js'
+
 
 const router = useRouter()
 const authStore = useAuthStore()

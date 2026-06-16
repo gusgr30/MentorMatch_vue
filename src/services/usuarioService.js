@@ -6,8 +6,10 @@ export const getMentores = () =>
 export const getUsuarioById = (id) =>
   api.get(`/usuarios/${id}`)
 
-export const crearUsuario = (payload) =>
-  api.post('/usuarios/', payload)
+export const crearUsuario = (formData) =>
+  api.post('/usuarios/', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  })
 
 export const actualizarUsuario = (id, formData) =>
   api.put(`/usuarios/${id}`, formData, {
