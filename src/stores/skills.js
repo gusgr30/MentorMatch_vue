@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import api from '../api/axios.js'
+import { getSkills } from '../services/configService.js'
 
 export const useSkillsStore = defineStore('skills', {
   state: () => ({
@@ -12,7 +12,7 @@ export const useSkillsStore = defineStore('skills', {
       if (this.skills.length) return
       this.loading = true
       try {
-        const { data } = await api.get('/config/skills')
+        const { data } = await getSkills()
         this.skills = data
       } finally {
         this.loading = false
