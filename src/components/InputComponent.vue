@@ -17,7 +17,7 @@
                 @click="togglePasswordVisibility"
                 class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-indigo-600 transition"
             >
-                <EyeOff v-if="isPasswordVisible" :size="20" />
+                <EyeOff v-if="!isPasswordVisible" :size="20" />
                 <Eye v-else :size="20" />
             </button>
         </div>
