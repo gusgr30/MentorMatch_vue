@@ -62,10 +62,17 @@ import { Funnel, HouseHeart } from '@lucide/vue'
 import { useAuthStore } from '../../stores/auth.js'
 import { useUsuarioStore } from '../../stores/usuario.js'
 import DateCard from '../../components/DateCard.vue'
+import { ordenarSlots } from '../../utils/fecha.js'
+import { useToast } from '../../composables/useToast.js'
 
 import ButtonCommon from '../../components/ButtonCommon.vue'
 
+const { showToast } = useToast()
+
 const days = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo']
+const diasOrden = {
+    'Lunes': 1, 'Martes': 2, 'Miércoles': 3, 'Miercoles': 3, 'Jueves': 4, 'Viernes': 5, 'Sábado': 6, 'Sabado': 6, 'Domingo': 7
+}
 
 const selectedDay = ref('Lunes')
 const selectedTime = ref('14:00')
@@ -85,12 +92,24 @@ const agregarDisponibilidad = async () =>{
     const dateTime = `${selectedDay.value} ${selectedTime.value}`
     
     const estaIngresado = disponibilidadUsuario.value.includes(dateTime)
-    if(estaIngresado) return
-
+    if(estaIngresado) {
+        showToast("El dia y la hora seleccionada ya están ingresados.", "error")    
+        return
+    }
+    
     disponibilidadUsuario.value.push(dateTime)
+    disponibilidadUsuario.value.sort((a,b) => {
+        const [diaA, horaA] = a.split(' ')
+        const [diaB, horaB] = b.split(' ')
+        
+        if(diasOrden[diaA] !== diasOrden[diaB]) return diasOrden[diaA] - diasOrden[diaB]
+        return horaA.localeCompare(horaB)
+    })
+    
     const payload = {mentorProfile: {disponibilidad: disponibilidadUsuario.value}}
     await usuarioStore.actualizarUsuario(idUsuario, payload)
     
+    showToast("Disponibilidad agregada con éxito.", "success")    
     selectedDay.value = 'Lunes'
     selectedTime.value = '14:00' 
 }
@@ -98,10 +117,11 @@ const agregarDisponibilidad = async () =>{
 const eliminarDisponibilidad = async (dateTimeAEliminar) => {
     const index = disponibilidadUsuario.value.indexOf(dateTimeAEliminar)
     if(index === -1) return
-
+    
     disponibilidadUsuario.value.splice(index, 1)
     const payload = {mentorProfile: {disponibilidad: disponibilidadUsuario.value}}
     await usuarioStore.actualizarUsuario(idUsuario, payload)
+    showToast("Horario eliminado con éxito.", "success")    
  
 }
 
