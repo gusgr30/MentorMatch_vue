@@ -39,6 +39,7 @@ import PageHeader from "../../components/PageHeader.vue";
 import { useAuthStore } from "../../stores/auth.js";
 import { useReservaStore } from "../../stores/reserva.js";
 import { useSkillsStore } from "../../stores/skills.js";
+import { ESTADOS_RESERVA } from "../../constants/index.js";
 const authStore = useAuthStore();
 const reservaStore = useReservaStore();
 const skillsStore = useSkillsStore();
@@ -78,5 +79,8 @@ const goToMisMentorias = () => {
   router.push({ name: "misMentorias" });
 };
 
-const reservasActivas = computed(() => reservaStore.reservas.length)
+const reservasActivas = computed(() => {
+  const activas = reservaStore.reservas?.filter(r => r.estado !== ESTADOS_RESERVA.CANCELADA)
+  return activas.length ?? 0;
+});
 </script>
