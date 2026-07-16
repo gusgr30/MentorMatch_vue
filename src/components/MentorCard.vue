@@ -6,6 +6,17 @@
     <div
       class="relative h-28 bg-gradient-to-r from-indigo-500 to-purple-600 flex items-end px-6 pb-2"
     >
+    <!-- @click.stop para que llame a la funcion y frene el evento, para que no continue hacia el contenedor padre con el evento clickCard-->
+      <button
+        @click.stop="favoritesStore.toggleFavorite(mentor)" 
+        class="absolute top-3 left-3 text-white hover:scale-110 transition-transform z-10"
+      >
+        <Heart
+          :class="favoritesStore.isFavorite(mentor._id) ? 'fill-white text-white' : 'text-white'"
+          :size="24"
+        />
+      </button>
+
       <Pill
         class="absolute top-3 right-3"
         :tarifa="mentor.mentorProfile.tarifa"
@@ -53,6 +64,10 @@
 import Pill from "./Pill.vue";
 import ButtonCommon from "./ButtonCommon.vue";
 import { resolverFoto } from "../utils/utils.js";
+import { Heart } from "@lucide/vue";
+import { useFavoritesStore } from "../stores/favoritesStore.js";
+
+const favoritesStore = useFavoritesStore();
 
 const props = defineProps({
   mentor: {

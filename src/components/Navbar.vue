@@ -18,6 +18,10 @@
             class="transition font-medium flex items-center gap-2" active-class="text-indigo-600 font-bold">
             Mis Mentorías
           </RouterLink>
+          <RouterLink v-if="authStore.isStudent" to="/mis-favoritos"
+            class="transition font-medium flex items-center gap-2" active-class="text-indigo-600 font-bold">
+            Mis Favoritos
+          </RouterLink>
           <RouterLink v-if="authStore.isMentor" to="/portal/dashboard"
             class="transition font-medium flex items-center gap-2" active-class="text-indigo-600 font-bold">
             Panel de Clases

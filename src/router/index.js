@@ -26,6 +26,12 @@ const routes = [
     meta: { requiresAuth: true, rol: "student" },
   },
   {
+    path: "/mis-favoritos",
+    name: "misFavoritos",
+    component: () => import("../views/student/MisFavoritosView.vue"),
+    meta: { requiresAuth: true, rol: "student" },
+  },
+  {
     path: "/portal/dashboard",
     name: "mentorDashboard",
     component: ()=> import("../views/mentor/MentorDashboardView.vue"),

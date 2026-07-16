@@ -2,19 +2,9 @@
   <form @submit.prevent="handleRegister">
     <fieldset class="fieldset bg-base-200 border-base-300 rounded-box border p-4 gap-2 flex flex-col">
 
-      <!-- <label class="font-bold">NOMBRE COMPLETO</label>
-      <input v-model="form.nombre" type="text" class="input w-full" placeholder="Juan Pérez" required minlength="3" /> -->
-      
-      <!-- <label class="font-bold">EMAIL</label>
-      <input v-model="form.email" type="email" class="input w-full" placeholder="tu@email.com" required /> -->
-
-      <!-- <label class="font-bold">CONTRASEÑA</label>
-      <input v-model="form.password" type="password" class="input w-full" placeholder="Mínimo 6 caracteres" required minlength="6" /> -->
-
       <InputComponent label="nombre completo" type="text" placeholder="Juan Pérez" v-model="form.nombre" />
       <InputComponent label="email" type="email" placeholder="tu@email.com" v-model="form.email" />
       <InputComponent label="contraseña" type="password" placeholder="Mínimo 6 caracteres" v-model="form.password" />
-
 
       <label :class="VARIANT_CLASS.LABEL">FOTO DE PERFIL</label>
       <div class="flex items-center gap-4">
@@ -42,22 +32,10 @@
       <div v-if="form.rol === 'mentor'" class="flex flex-col gap-2 mt-4 border-t border-gray-300 pt-4">
         <h3 class="text-indigo-700 font-bold mb-2">Perfil Profesional</h3>
 
-        <!-- <label class="font-bold text-xs">TÍTULO (Ej: Full Stack Developer)</label>
-        <input v-model="form.titulo" type="text" class="input w-full" required minlength="3" /> -->
-
         <InputComponent label="TÍTULO (Ej: Full Stack Developer)" type="text" v-model="form.titulo" />
         <InputComponent label="AÑOS DE EXPERIENCIA" type="number" v-model="form.experiencia" />
         <InputComponent label="TARIFA POR HORA" type="number" v-model="form.tarifa" />
         <InputComponent label="LINKEDIN URL" type="url" v-model="form.linkedin" placeholder="https://linkedin.com/in/tuperfil" />
-
-        <!-- <label class="font-bold text-xs">AÑOS DE EXPERIENCIA</label>
-        <input v-model="form.experiencia" type="number" min="1" class="input w-full" required /> -->
-
-        <!-- <label class="font-bold text-xs">TARIFA POR HORA</label>
-        <input v-model="form.tarifa" type="number" min="1" class="input w-full" required />
-
-        <label class="font-bold text-xs">LINKEDIN URL</label>
-        <input v-model="form.linkedin" type="url" class="input w-full" placeholder="https://linkedin.com/in/tuperfil" required /> -->
 
         <label :class="VARIANT_CLASS.LABEL">SKILLS</label>
         <Multiselect
@@ -93,9 +71,7 @@
         <p v-if="!form.disponibilidad.length" class="text-xs text-base-content/40">Agregá al menos un horario</p>
 
         <TextAreaComponent label="descripción" v-model="form.descripcion"/>
-        <!-- <label class="font-bold text-xs">DESCRIPCIÓN</label>
-        <textarea v-model="form.descripcion" class="input w-full h-24 py-2"
-          placeholder="Contanos sobre tu experiencia..." required minlength="10"></textarea> -->
+
       </div>
 
       <ButtonCommon class="w-full mt-4" :disabled="authStore.loading" @click="handleRegister">
