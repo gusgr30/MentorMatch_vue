@@ -1,16 +1,17 @@
 <template>
-        <div class="max-w-3xl bg-white p-8 rounded-3xl border border-gray-100 shadow-sm">
-            <h3 class="font-bold text-xl text-gray-900 border-b pb-3 mb-6">Editar Datos Profesionales</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-            
-            <InputComponent :disabled="isSaved" label="título profesional" type="text" v-model="formData.tituloProfesional" />     
-            <InputComponent :disabled="isSaved" label="experiencia actual (años)" type="number" v-model="formData.experienciaActual" />
-            <InputComponent :disabled="isSaved" label="tarifa por hora" type="number" v-model="formData.tarifaPorHora" />
+    <div class="max-w-3xl bg-white p-8 rounded-3xl border border-gray-100 shadow-sm">
+        <h3 class="font-bold text-xl text-gray-900 border-b pb-3 mb-6">Editar Datos Profesionales</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+
+            <InputComponent :disabled="isSaved" label="título profesional" type="text"
+                v-model="formData.tituloProfesional" />
+            <InputComponent :disabled="isSaved" label="experiencia actual (años)" type="number"
+                v-model="formData.experienciaActual" />
+            <InputComponent :disabled="isSaved" label="tarifa por hora" type="number"
+                v-model="formData.tarifaPorHora" />
             <InputComponent :disabled="isSaved" label="linkedin url" type="text" v-model="formData.linkedinUrl" />
 
         </div>
-
-        <TextAreaComponent :disabled="isSaved" label="Biografía Profesional" v-model="formData.biografiaProfesional"/>
 
         <div class="mb-6">
             <label
@@ -18,21 +19,25 @@
                 Tecnologías/Skills
             </label>
             <div class="flex flex-wrap gap-2 mt-2">
-                
-                <button 
-                    v-for="skill in allSkills"
-                    :key="skill"
+
+                <button v-for="skill in allSkills" :key="skill"
                     :class="selectedSkills.includes(skill) ? VARIANT_CLASS.BUTTON_SELECTED : VARIANT_CLASS.BUTTON_UNSELECTED"
-                    @click="toggleSkill(skill)"
-                    :disabled="isSaved"
-                    type="button"
-                    >
-                    {{skill}}
+                    @click="toggleSkill(skill)" :disabled="isSaved" type="button">
+                    {{ skill }}
                 </button>
 
 
             </div>
         </div>
+
+        <div v-if="!isSaved" class="flex justify-end -mb-3">
+            <button type="button" @click="generarConIA" :disabled="generandoDescripcion"
+                class="text-sm font-semibold text-indigo-600 hover:text-indigo-800 disabled:text-gray-400 disabled:cursor-not-allowed cursor-pointer">
+                {{ generandoDescripcion ? "Generando..." : "✨ Generar biografía con IA" }}
+            </button>
+        </div>
+        <TextAreaComponent :disabled="isSaved" label="Biografía Profesional" v-model="formData.biografiaProfesional" />
+
         <div v-if="isSaved" class="w-full flex justify-center">
             <ButtonCommon @click="toggleEdit" variant="primary"> Editar </ButtonCommon>
         </div>
@@ -56,6 +61,7 @@ import { useAuthStore } from "../stores/auth";
 import { useUsuarioStore } from "../stores/usuario";
 import { useSkillsStore } from "../stores/skills.js";
 import { useToast } from "../composables/useToast";
+import { generarDescripcion } from "../services/iaService.js";
 
 
 const { showToast } = useToast()
@@ -65,6 +71,7 @@ const usuarioStore = useUsuarioStore()
 const skillsStore = useSkillsStore()
 
 const isSaved = ref(true)
+const generandoDescripcion = ref(false)
 
 
 onMounted(async () => {
@@ -90,6 +97,28 @@ const toggleSkill = async (skillClickeado) => {
         selectedSkills.value = selectedSkills.value.filter(s => s !== skillClickeado)
     }else{
         selectedSkills.value.push(skillClickeado)
+    }
+}
+
+const generarConIA = async () => {
+    if (!formData.value.tituloProfesional && !selectedSkills.value.length) {
+        showToast("Completá al menos el título o alguna skill para generar la biografía.", "error")
+        return
+    }
+
+    generandoDescripcion.value = true
+    try {
+        const { data } = await generarDescripcion({
+            titulo: formData.value.tituloProfesional,
+            skills: selectedSkills.value,
+            experiencia: formData.value.experienciaActual,
+        })
+        formData.value.biografiaProfesional = data.descripcion
+        showToast("Biografía generada con IA.", "success")
+    } catch (err) {
+        showToast("No se pudo generar la biografía con IA.", "error")
+    } finally {
+        generandoDescripcion.value = false
     }
 }
 

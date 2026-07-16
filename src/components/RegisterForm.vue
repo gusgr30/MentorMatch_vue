@@ -70,8 +70,18 @@
         </div>
         <p v-if="!form.disponibilidad.length" class="text-xs text-base-content/40">Agregá al menos un horario</p>
 
-        <TextAreaComponent label="descripción" v-model="form.descripcion"/>
-
+        <TextAreaComponent label="biografía profesional" v-model="form.descripcion">
+            <template #actions>
+                <button
+                    type="button"
+                    @click="generarConIA"
+                    :disabled="generandoDescripcion"
+                    class="text-xs font-semibold text-indigo-600 hover:text-indigo-800 disabled:text-gray-400 disabled:cursor-not-allowed cursor-pointer"
+                >
+                    {{ generandoDescripcion ? "Generando..." : "✨ Generar con IA" }}
+                </button>
+            </template>
+        </TextAreaComponent>
       </div>
 
       <ButtonCommon class="w-full mt-4" :disabled="authStore.loading" @click="handleRegister">
@@ -89,6 +99,7 @@ import '@vueform/multiselect/themes/default.css'
 import { useAuthStore } from '../stores/auth.js'
 import { useSkillsStore } from '../stores/skills.js'
 import { useToast } from '../composables/useToast.js'
+import { generarDescripcion } from '../services/iaService.js'
 import ButtonCommon from './ButtonCommon.vue'
 import InputComponent from './InputComponent.vue'
 import TextAreaComponent from './TextAreaComponent.vue'
@@ -119,6 +130,30 @@ const form = ref({
 })
 
 const DIAS = ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo']
+
+const generandoDescripcion = ref(false)
+
+const generarConIA = async () => {
+  if (!form.value.titulo && !form.value.skills.length) {
+    showToast('Completá al menos el título o alguna skill para generar la biografía.', 'error')
+    return
+  }
+
+  generandoDescripcion.value = true
+  try {
+    const { data } = await generarDescripcion({
+      titulo: form.value.titulo,
+      skills: form.value.skills,
+      experiencia: form.value.experiencia,
+    })
+    form.value.descripcion = data.descripcion
+    showToast('Biografía generada con IA.', 'success')
+  } catch (err) {
+    showToast('No se pudo generar la biografía con IA.', 'error')
+  } finally {
+    generandoDescripcion.value = false
+  }
+}
 
 const fotoArchivo = ref(null)
 const fotoPreview = ref(null)

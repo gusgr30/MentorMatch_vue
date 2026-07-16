@@ -1,9 +1,12 @@
 <template>
     <div class="mb-6">
-        <label :class="VARIANT_CLASS.LABEL">
-        {{props.label.toUpperCase()}}
-        </label>
-        <textarea 
+        <div class="flex items-center justify-between">
+            <label :class="VARIANT_CLASS.LABEL">
+            {{props.label.toUpperCase()}}
+            </label>
+            <slot name="actions"></slot>
+        </div>
+        <textarea
             rows="4" 
             v-model="modelValue" 
             :placeholder="props.placeholder" 
