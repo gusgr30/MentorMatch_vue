@@ -53,7 +53,7 @@
         </span>
       </div>
 
-      <ButtonCommon class="w-full" @click="$emit('clickCard', mentor._id)">
+      <ButtonCommon class="w-full mt-auto" @click="$emit('clickCard', mentor._id)">
         Ver perfil
       </ButtonCommon>
     </div>
