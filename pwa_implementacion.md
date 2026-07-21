@@ -113,5 +113,5 @@ mentorMatch/
 │       └── icon-512x512.png
 ├── vite.config.js        ← configuración del plugin
 └── src/
-    └── main.js           ← no requiere cambios (autoUpdate lo maneja solo)
+    └── main.js           ← no requiere cambios (autoUpdate lo maneja solo).
 ```
